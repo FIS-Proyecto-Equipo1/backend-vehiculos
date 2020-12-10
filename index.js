@@ -43,6 +43,8 @@ app.get("/", (req, res)  => {
     res.send("<html><body><h1>MY SERVER IS RUNNING</h1></body></html>");
 });
 
+
+
 app.get(BASE_API_PATH + "/vehicles", (req, res)  => {
     console.log(Date() + "GET/vehicles")
     res.send(vehicles);
