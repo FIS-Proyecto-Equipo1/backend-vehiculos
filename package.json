@@ -3,10 +3,9 @@
   "version": "1.0.0",
   "description": "API Vehicles",
   "main": "index.js",
-  "repository":
-  {
-    "type":"git",
-    "url":"https://github.com/FredoFuentesUS/API-vehicles-fis2020.git"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/FredoFuentesUS/API-vehicles-fis2020.git"
   },
   "scripts": {
     "start": "node index.js",
@@ -15,6 +14,7 @@
   "author": "Alfredo Fuentes",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "nedb": "^1.8.0"
   }
 }
