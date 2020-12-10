@@ -1,0 +1,20 @@
+{
+  "name": "vehicles",
+  "version": "1.0.0",
+  "description": "API Vehicles",
+  "main": "index.js",
+  "repository":
+  {
+    "type":"git",
+    "url":"https://github.com/FredoFuentesUS/API-vehicles-fis2020.git"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Alfredo Fuentes",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
