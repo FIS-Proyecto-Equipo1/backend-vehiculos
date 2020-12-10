@@ -20,18 +20,25 @@ app.get("/", (req, res)  => {
 });
 
 app.get(BASE_API_PATH + "/vehicles", (req, res)  => {
-    console.log(Date() + "GET/vehicles")
-    res.send(vehicles);
+    console.log(Date() + " GET /vehicles")
+    db.find({}, (err, vehicles) => {
+        if(err){
+            console.log(Date()+" - "+ err);
+            res.sendStatus(500);
+        }else{
+            res.send(vehicles);
+        }
+    })
 });
 
 app.post(BASE_API_PATH + "/vehicles", (req, res)  => {
-    console.log(Date() + "POST /vehicles")
+    console.log(Date() + " POST /vehicles")
     var veh = req.body;
     db.insert(veh, (err) => {
         if(err)
         {
             console.log(Date()+" - "+ err);
-            res.send(500);
+            res.sendStatus(500);
         }else{
             res.sendStatus(201);
         }
