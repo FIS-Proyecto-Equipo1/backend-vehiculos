@@ -1,5 +1,5 @@
 sudo: required
-languaje:node_js
+languaje: node_js
 node_js:
   - "9"
 services:
