@@ -10,7 +10,7 @@ const vehicleSchema = new mongoose.Schema(
     });
 
 vehicleSchema.methods.cleanId = function() {
-    return {id: this.id, tipo: this.tipo, estado: this.estado, permiso: this.permiso, localizacion :this.localizacion};
+    return {matricula: this.matricula, tipo: this.tipo, estado: this.estado, permiso: this.permiso, localizacion :this.localizacion};
 }
 
 const Vehicle = mongoose.model('Vehicle', vehicleSchema);
