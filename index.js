@@ -7,7 +7,6 @@ const Vehicle = require('./vehicle');
 
 var port = (process.env.PORT || 3000);
 var BASE_API_PATH = "/api/v1";
-var DB_FILE_NAME = __dirname + '/vehicles.json';
 
 console.log("Starting api server... ");
 
