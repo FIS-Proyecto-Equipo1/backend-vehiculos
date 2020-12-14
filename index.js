@@ -26,7 +26,7 @@ dbConnect().then(
     }, err => {
         console.log("Connection error "+ err);
     }
-)
+);
 
 app.get("/", (req, res)  => {
     res.send("<html><body><h1>MY SERVER IS RUNNING</h1></body></html>");
