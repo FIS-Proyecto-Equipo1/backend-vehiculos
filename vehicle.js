@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const vehicleSchema = new mongoose.Schema(
     {
-        id: Number,
+        matricula: String,
         tipo: String,
         estado: String,
         permiso: String,
