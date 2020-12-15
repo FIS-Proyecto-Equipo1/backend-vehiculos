@@ -1,5 +1,6 @@
 var exp = require('express');
 var body_parser = require('body-parser');
+var cors = require('cors');
 
 
 const dbConnect = require('./db');
@@ -14,6 +15,7 @@ console.log("Starting api server... ");
 
 var app = exp();
 app.use(body_parser.json());
+app.use(cors());
 //var db = new DataStore({
 //    filename : DB_FILE_NAME,
 //    autoload : true
