@@ -47,6 +47,25 @@ app.get(BASE_API_PATH + "/vehicles", (req, res)  => {
     })
 });
 
+app.get(BASE_API_PATH + "/vehicles/:matricula", (req, res)  => {
+    Vehicle.findOne({"matricula": req.params.matricula}, (err, vehicle) => {
+        if(err){
+            console.log(Date()+" - "+ err);
+            res.sendStatus(500);
+        }else{
+            if(vehicle == null){
+                console.log(Date() + " GET /vehicles/"+req.params.matricula +" - Invalid");
+                res.sendStatus(404);
+            }
+            else    
+            {
+                console.log(Date() + " GET /vehicles/"+req.params.matricula);
+                res.send(vehicle.cleanId());
+            }
+        }
+    })
+});
+
 app.post(BASE_API_PATH + "/vehicles", (req, res)  => {
     console.log(Date() + " POST /vehicles")
     var veh = req.body;
