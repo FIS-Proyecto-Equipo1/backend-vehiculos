@@ -35,12 +35,12 @@ app.get("/", (req, res)  => {
 });
 
 app.get(BASE_API_PATH + "/vehicles", (req, res)  => {
-    console.log(Date() + " GET /vehicles")
     Vehicle.find({}, (err, vehicles) => {
         if(err){
             console.log(Date()+" - "+ err);
             res.sendStatus(500);
         }else{
+            console.log(Date() + " GET /vehicles")
             res.send(vehicles.map((vehicle) => {
                 return vehicle.cleanId();}));
         }
@@ -67,7 +67,6 @@ app.get(BASE_API_PATH + "/vehicles/:matricula", (req, res)  => {
 });
 
 app.post(BASE_API_PATH + "/vehicles", (req, res)  => {
-    console.log(Date() + " POST /vehicles")
     var veh = req.body;
     Vehicle.create(veh, (err) => {
         if(err)
@@ -75,6 +74,7 @@ app.post(BASE_API_PATH + "/vehicles", (req, res)  => {
             console.log(Date()+" - "+ err);
             res.sendStatus(500);
         }else{
+            console.log(Date() + " POST /vehicles")
             res.sendStatus(201);
         }
     });
@@ -87,11 +87,16 @@ app.put(BASE_API_PATH + "/vehicles/:matricula", (req, res)  => {
     Vehicle.findOneAndUpdate({"matricula": matricula}, update_info, (err, vehicle_update) => {
         if(err)
         {    
-            res.sendStatus(500)
             console.log(err);
+            res.sendStatus(500)
         }else
+        {
+            console.log(Date() + " PUT /vehicles/" + matricula)
             res.status(200).send({vehicle : vehicle_update}); //envia la informacion del viejo no del nuevo
+        }
     });
 });
+
+
 
 module.exports =app;
