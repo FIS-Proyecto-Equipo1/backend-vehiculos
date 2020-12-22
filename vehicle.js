@@ -2,11 +2,11 @@ const mongoose = require('mongoose');
 
 const vehicleSchema = new mongoose.Schema(
     {
-        matricula: String,
-        tipo: String,
-        estado: String,
-        permiso: String,
-        localizacion :String
+        matricula: {type: String, unique: true, required: true },
+        tipo: {type: String, required: true },
+        estado: {type: String, required: true },
+        permiso: {type: String, required: true },
+        localizacion: {type: String, required: true }
     });
 
 vehicleSchema.methods.cleanId = function() {
