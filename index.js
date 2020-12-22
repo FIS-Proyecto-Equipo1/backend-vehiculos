@@ -97,6 +97,20 @@ app.put(BASE_API_PATH + "/vehicles/:matricula", (req, res)  => {
     });
 });
 
+app.delete(BASE_API_PATH + "/vehicles/:matricula", (req, res)  => {
+    let matricula = req.params.matricula;
 
+    Vehicle.findOneAndDelete({"matricula": matricula}, (err) => {
+        if(err)
+        {    
+            console.log(err);
+            res.sendStatus(500)
+        }else
+        {
+            console.log(Date() + " DELETE /vehicles/" + matricula)
+            res.status(200).send({message : "Vehicle " + matricula+ " removed"}); 
+        }
+    });
+});
 
 module.exports =app;
