@@ -80,4 +80,18 @@ app.post(BASE_API_PATH + "/vehicles", (req, res)  => {
     });
 });
 
+app.put(BASE_API_PATH + "/vehicles/:matricula", (req, res)  => {
+    let matricula = req.params.matricula;
+    let update_info = req.body;
+
+    Vehicle.findOneAndUpdate({"matricula": matricula}, update_info, (err, vehicle_update) => {
+        if(err)
+        {    
+            res.sendStatus(500)
+            console.log(err);
+        }else
+            res.status(200).send({vehicle : vehicle_update}); //envia la informacion del viejo no del nuevo
+    });
+});
+
 module.exports =app;
