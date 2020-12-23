@@ -88,13 +88,13 @@ app.put(BASE_API_PATH + "/vehicles/:matricula", (req, res)  => {
     console.log(JSON.stringify(req.body)); //Vacío!
     var newV = {
         "matricula": "x",
-        "tipo": "y",
+        "tipo": "x",
         "estado": "x",
         "permiso": "x",
         "localizacion": "x"
     }
     //TO-DO: Body no devuelve nada, funciona pero con vehículo creado aquí.
-    Vehicle.updateOne({"matricula": matricula}, newV, (err, vehicle_update) => {
+    Vehicle.update({"matricula": matricula}, newV, (err, vehicle_update) => {
         if(err)
         {    
             console.log(err);
@@ -102,8 +102,9 @@ app.put(BASE_API_PATH + "/vehicles/:matricula", (req, res)  => {
         }else
         {
             console.log(Date() + " PUT /vehicles/" + matricula);
-            res.status(200).send({vehicle : vehicle_update}); //envia la informacion del viejo no del nuevo
-        }
+            res.status(200).send({vehicle : vehicle_update, body: req.body}); //FindOneAndUpdate: envia la informacion del viejo no del nuevo
+        }                                                                     //update or updateOne: devuelve 1 si modificado o 0 si no
+                                                                              //body vacío
     });
 });
 
