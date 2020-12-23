@@ -94,7 +94,7 @@ app.put(BASE_API_PATH + "/vehicles/:matricula", (req, res)  => {
         "localizacion": "x"
     }
     //TO-DO: Body no devuelve nada, funciona pero con vehículo creado aquí.
-    Vehicle.update({"matricula": matricula}, newV, (err, vehicle_update) => {
+    Vehicle.updateOne({"matricula": matricula}, newV, (err, vehicle_update) => {
         if(err)
         {    
             console.log(err);
