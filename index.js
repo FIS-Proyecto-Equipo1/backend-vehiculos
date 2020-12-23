@@ -1,6 +1,7 @@
 var exp = require('express');
 var body_parser = require('body-parser');
 var cors = require('cors');
+var mongoose = require('mongoose');
 
 
 const dbConnect = require('./db');
@@ -83,15 +84,24 @@ app.post(BASE_API_PATH + "/vehicles", (req, res)  => {
 app.put(BASE_API_PATH + "/vehicles/:matricula", (req, res)  => {
     let matricula = req.params.matricula;
     let update_info = req.body;
-
-    Vehicle.findOneAndUpdate({"matricula": matricula}, update_info, (err, vehicle_update) => {
+    // var myId = mongoose.Types.ObjectId( req.body._id );
+    console.log(JSON.stringify(req.body)); //Vacío!
+    var newV = {
+        "matricula": "x",
+        "tipo": "y",
+        "estado": "x",
+        "permiso": "x",
+        "localizacion": "x"
+    }
+    //TO-DO: Body no devuelve nada, funciona pero con vehículo creado aquí.
+    Vehicle.updateOne({"matricula": matricula}, newV, (err, vehicle_update) => {
         if(err)
         {    
             console.log(err);
-            res.sendStatus(500)
+            res.sendStatus(500);
         }else
         {
-            console.log(Date() + " PUT /vehicles/" + matricula)
+            console.log(Date() + " PUT /vehicles/" + matricula);
             res.status(200).send({vehicle : vehicle_update}); //envia la informacion del viejo no del nuevo
         }
     });
@@ -108,7 +118,7 @@ app.delete(BASE_API_PATH + "/vehicles/:matricula", (req, res)  => {
         }else
         {
             console.log(Date() + " DELETE /vehicles/" + matricula)
-            res.status(200).send({message : "Vehicle " + matricula+ " removed"}); 
+            res.status(200).send({message : "Vehicle " + matricula+ " removed"});
         }
     });
 });
