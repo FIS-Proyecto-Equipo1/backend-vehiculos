@@ -92,9 +92,9 @@ app.put(BASE_API_PATH + "/vehicles/:matricula", (req, res)  => {
         }else
         {
             console.log(Date() + " PUT /vehicles/" + matricula);
-            res.status(200).send({vehicle : vehicle_update, body: req.body}); //FindOneAndUpdate: envia la informacion del viejo no del nuevo
-        }                                                                     //update or updateOne: devuelve 1 si modificado o 0 si no
-                                                                              //body vacío
+            res.status(200).send({vehicle : vehicle_update, body: req.body});
+        }                                                                     
+                                                                              
     });
 });
 
