@@ -1,7 +1,6 @@
 var exp = require('express');
 var body_parser = require('body-parser');
 var cors = require('cors');
-var mongoose = require('mongoose');
 
 
 const dbConnect = require('./db');
@@ -13,8 +12,8 @@ var BASE_API_PATH = "/api/v1";
 console.log("Starting api server... ");
 
 
-
 var app = exp();
+app.use(body_parser.urlencoded({ extended: false }))
 app.use(body_parser.json());
 app.use(cors());
 //var db = new DataStore({
@@ -83,18 +82,9 @@ app.post(BASE_API_PATH + "/vehicles", (req, res)  => {
 
 app.put(BASE_API_PATH + "/vehicles/:matricula", (req, res)  => {
     let matricula = req.params.matricula;
-    let update_info = req.body;
-    // var myId = mongoose.Types.ObjectId( req.body._id );
-    console.log(JSON.stringify(req.body)); //Vacío!
-    var newV = {
-        "matricula": "x",
-        "tipo": "x",
-        "estado": "x",
-        "permiso": "x",
-        "localizacion": "x"
-    }
-    //TO-DO: Body no devuelve nada, funciona pero con vehículo creado aquí.
-    Vehicle.updateOne({"matricula": matricula}, newV, (err, vehicle_update) => {
+    let update_vehicle = req.body;
+
+    Vehicle.updateOne({"matricula": matricula}, update_vehicle, (err, vehicle_update) => {
         if(err)
         {    
             console.log(err);
