@@ -5,7 +5,7 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/rodcalrub/back-vehiculos-rodri"
+    "url": "https://github.com/FIS-Proyecto-Equipo1/backend-vehiculos"
   },
   "scripts": {
     "start": "node index.js",
