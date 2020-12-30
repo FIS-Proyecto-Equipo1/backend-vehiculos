@@ -16,10 +16,7 @@ var app = exp();
 app.use(body_parser.urlencoded({ extended: false }))
 app.use(body_parser.json());
 app.use(cors());
-//var db = new DataStore({
-//    filename : DB_FILE_NAME,
-//    autoload : true
-//});
+
 
 dbConnect().then(
     () => {
@@ -35,7 +32,7 @@ app.get("/", (req, res)  => {
 });
 
 app.get(BASE_API_PATH + "/vehicles", (req, res)  => {
-    Vehicle.find({}, (err, vehicles) => {
+    Vehicle.find(req.query, (err, vehicles) => {
         if(err){
             console.log(Date()+" - "+ err);
             res.sendStatus(500);
@@ -54,12 +51,12 @@ app.get(BASE_API_PATH + "/vehicles/:matricula", (req, res)  => {
             res.sendStatus(500);
         }else{
             if(vehicle == null){
-                console.log(Date() + " GET /vehicles/"+req.params.matricula +" - Invalid");
+                console.log(Date() + " GET /vehicles/ "+req.params.matricula +" - Invalid");
                 res.sendStatus(404);
             }
             else    
             {
-                console.log(Date() + " GET /vehicles/"+req.params.matricula);
+                console.log(Date() + " GET /vehicles/ "+req.params.matricula);
                 res.send(vehicle.cleanId());
             }
         }
@@ -83,11 +80,12 @@ app.post(BASE_API_PATH + "/vehicles", (req, res)  => {
 app.put(BASE_API_PATH + "/vehicles/:matricula", (req, res)  => {
     let matricula = req.params.matricula;
     let update_vehicle = req.body;
-
-    Vehicle.updateOne({"matricula": matricula}, update_vehicle, (err, vehicle_update) => {
+    Vehicle.findOneAndUpdate({"matricula": matricula}, update_vehicle, { runValidators: true }, (err, vehicle_update) => {
+        if(err == null && vehicle_update == null)
+            err = new Error("Vehicle not found " + matricula);
         if(err)
         {    
-            console.log(err);
+            console.log(Date()+" - "+err);
             res.sendStatus(500);
         }else
         {
@@ -97,6 +95,30 @@ app.put(BASE_API_PATH + "/vehicles/:matricula", (req, res)  => {
                                                                               
     });
 });
+
+ 
+app.patch(BASE_API_PATH + "/vehicles/:matricula", (req, res)  => {
+    let matricula = req.params.matricula;
+    let modification;
+    if(req.query.change === 'localizacion')
+        modification = { 'localizacion' :  req.body.localizacion};
+    else if(req.query.change === 'estado')
+        modification = { 'estado' :  req.body.estado};
+    Vehicle.findOneAndUpdate({"matricula": matricula}, modification, { runValidators: true }, (err, vehicle_update) => {
+        if(err == null && vehicle_update == null)
+            err = new Error("Vehicle not found " + matricula);
+        if(err)
+        {    
+            console.log(Date()+" - "+err);
+            res.sendStatus(500)
+        }else
+        {
+            console.log(Date() + " PATCH /vehicles/" + matricula + "/" +req.query.change)
+            res.status(200).send({vehicle : vehicle_update}); //envia la informacion del viejo no del nuevo
+        }
+    });
+}); 
+
 
 app.delete(BASE_API_PATH + "/vehicles/:matricula", (req, res)  => {
     let matricula = req.params.matricula;
