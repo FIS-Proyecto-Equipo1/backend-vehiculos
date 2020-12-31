@@ -5,7 +5,7 @@ const dbConnect = require('../db.js');
 describe('Vehicle db connection', ()=>{
 
     beforeAll(()=>{
-        return dbConnect();
+        return dbConnect(); 
     })
 
     beforeEach((done)=>{

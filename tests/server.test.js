@@ -54,7 +54,7 @@ describe("VEhicles API", () => {
     describe("POST /vehicles", () => {
         const vehicle = {"matricula":"2345TGF", "tipo": "Moto", "estado":"RESERVADO", "permiso":"AB", "localizacion" : "Malaga" }
         let dbInsert;
-        
+         
         beforeEach(() => {
             dbInsert = jest.spyOn(Vehicle, "create");
         })
