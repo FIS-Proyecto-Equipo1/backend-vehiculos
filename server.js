@@ -30,6 +30,14 @@ app.get(BASE_API_PATH + "/vehicles", (req, res)  => {
 });
 
 app.get(BASE_API_PATH + "/vehicles/:matricula", (req, res)  => {
+    /*
+    idCliente = req.header('x-user')
+    if (idCliente){
+        toda la peticion
+   }else{
+       res.status(400).send()
+   }*/
+
     Vehicle.findOne({"matricula": req.params.matricula}, (err, vehicle) => {
         if(err){
             console.log(Date()+" - "+ err);
