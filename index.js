@@ -99,12 +99,7 @@ app.put(BASE_API_PATH + "/vehicles/:matricula", (req, res)  => {
  
 app.patch(BASE_API_PATH + "/vehicles/:matricula", (req, res)  => {
     let matricula = req.params.matricula;
-    let modification;
-    if(req.query.change === 'localizacion')
-        modification = { 'localizacion' :  req.body.localizacion};
-    else if(req.query.change === 'estado')
-        modification = { 'estado' :  req.body.estado};
-    Vehicle.findOneAndUpdate({"matricula": matricula}, modification, { runValidators: true }, (err, vehicle_update) => {
+    Vehicle.findOneAndUpdate({"matricula": matricula}, req.body, { runValidators: true }, (err, vehicle_update) => {
         if(err == null && vehicle_update == null)
             err = new Error("Vehicle not found " + matricula);
         if(err)
@@ -113,7 +108,7 @@ app.patch(BASE_API_PATH + "/vehicles/:matricula", (req, res)  => {
             res.sendStatus(500)
         }else
         {
-            console.log(Date() + " PATCH /vehicles/" + matricula + "/" +req.query.change)
+            console.log(Date() + " PATCH /vehicles/" + matricula);
             res.status(200).send({vehicle : vehicle_update}); //envia la informacion del viejo no del nuevo
         }
     });
