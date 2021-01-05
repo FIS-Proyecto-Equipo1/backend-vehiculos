@@ -1,0 +1,201 @@
+swagger: "2.0"
+info:
+  description: "Definición del servicio de Vehiculos"
+  version: "1.0.0"
+  title: "Servicio de Vehiculos"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+basePath: "/api/v1"
+tags:
+- name: "Vehiculos"
+  description: "Gestion de vehículos"
+schemes:
+
+- "http"
+paths:
+  /vehiculos:
+    post:
+      tags:
+      - "Vehiculos"
+      summary: "Crear una vehiculo"
+      description: ""
+      operationId: "createVehiculo"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Adding a new vehicle to the sistem database"
+        required: true
+        schema:
+          $ref: "#/definitions/Vehiculo"
+      responses:
+        "201":
+          description: "Operación satisfactoria"
+          schema:
+            $ref: "#/definitions/Vehiculo"
+        "500":
+          description: "Error de validación"
+    get:
+      tags:
+      - "Vehiculos"
+      summary: "Listado total de vehiculos"
+      description: "Obtiene el listado de vehiculos, con el posible filtrado de las queries"
+      operationId: "listaVehiculos"
+      parameters:
+      - in: "query"
+        name: "estado"
+        description: "Estado del vehiculo"
+        required: false
+        type: string
+      - in: "query"
+        name: "tipo"
+        description: "Tipo de vehiculo"
+        required: false
+        type: string
+      - in: "query"
+        name: "permiso"
+        description: "Permiso necesario para el vehiculo"
+        required: false
+        type: string
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          description: "Operación satisfactoria"
+          schema:
+            type: "array"
+            items: 
+              type: "object"
+              $ref: "#/definitions/Vehiculo"
+  /vehiculos/{matricula}:
+    get:
+      tags:
+      - "Vehiculos"
+      summary: "Obtener la información completa de un vehiculo"
+      description: "Obtener la información completa de un vehicul"
+      operationId: "obtenerVehiculo"
+      parameters:
+      - in: "path"
+        name: "matricula"
+        description: "Identificador del vehiculo"
+        required: true
+        type: string
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          description: "Operación satisfactoria"
+          schema:
+            $ref: "#/definitions/Vehiculo"
+        "404":
+          description: "No encontrada"
+        "500":
+          description: "Server encontrada"
+    delete:
+      tags:
+      - "Vehiculos"
+      summary: "Eliminar un vehiculo del sistema"
+      description: "Eliminar un vehiculo del sistema"
+      operationId: "deleteVehiculo"
+      parameters:
+      - in: "path"
+        name: "matricula"
+        description: "Identificador del vehiculo"
+        required: true
+        type: string
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          description: "Operación satisfactoria"
+          schema:
+            $ref: "#/definitions/Vehiculo"
+        "404":
+          description: "No encontrada"
+    patch:
+      tags:
+      - "Vehiculos"
+      summary: "Modifica uno o mas campos un vehiculo"
+      description: "Modifica uno o mas campos del vehiculo indicado en el path"
+      operationId: "ModificarAlgoVehiculo"
+      parameters:
+      - in: "path"
+        name: "matricula"
+        description: "Identificador del vehiculo"
+        required: true
+        type: string
+      - in: "body"
+        name: "body"
+        description: "Nuevos valores del vehiculo, puede incluir localizacion y/o estado"
+        required: true
+        schema:
+          $ref: "#/definitions/ModificacionVehiculo"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          description: "Operación satisfactoria"
+          schema:
+            $ref: "#/definitions/Vehiculo"
+        "404":
+          description: "No encontrada"
+    put:
+      tags:
+      - "Vehiculos"
+      summary: "Modifica todos los campos un vehiculo"
+      description: "Modifica toda la informacion del vehiculo indicado en el path"
+      operationId: "ModificarTodoVehiculo"
+      parameters:
+      - in: "path"
+        name: "matricula"
+        description: "Identificador del vehiculo"
+        required: true
+        type: string
+      - in: "body"
+        name: "body"
+        description: "Nuevos valores del vehiculo"
+        required: true
+        schema:
+          $ref: "#/definitions/Vehiculo"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          description: "Operación satisfactoria"
+          schema:
+            $ref: "#/definitions/Vehiculo"
+        "404":
+          description: "No encontrada"    
+ 
+  
+definitions:
+  Vehiculo:
+    type: "object"
+    properties:
+      matricula:
+        type: "string"
+      estado:
+        type: "string"
+      tipo:
+        type: "string"
+      permiso:
+        type: "string"
+      localizacion:
+        type: "string"
+  ModificacionVehiculo:
+    type: "object"
+    properties:
+      estado:
+        type: "string"
+      localizacion:
+        type: "string"

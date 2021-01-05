@@ -11,6 +11,7 @@ RUN npm install
 COPY index.js .
 COPY db.js .
 COPY vehicle.js .
+COPY server.js .
 
 EXPOSE 3000
 

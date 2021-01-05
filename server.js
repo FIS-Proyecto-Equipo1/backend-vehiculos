@@ -75,8 +75,12 @@ app.put(BASE_API_PATH + "/vehicles/:matricula", (req, res)  => {
     let update_vehicle = req.body;
     Vehicle.findOneAndUpdate({"matricula": matricula}, update_vehicle, { runValidators: true }, (err, vehicle_update) => {
         if(err == null && vehicle_update == null)
-            err = new Error("Vehicle not found " + matricula);
-        if(err)
+        {    
+            var auxErr = new Error("Vehicle not found " + matricula);
+            console.log(Date()+" - "+auxErr);
+            res.sendStatus(404)
+        }
+        else if(err)
         {    
             console.log(Date()+" - "+err);
             res.sendStatus(500);
@@ -94,8 +98,12 @@ app.patch(BASE_API_PATH + "/vehicles/:matricula", (req, res)  => {
     let matricula = req.params.matricula;
     Vehicle.findOneAndUpdate({"matricula": matricula}, req.body, { runValidators: true }, (err, vehicle_update) => {
         if(err == null && vehicle_update == null)
-            err = new Error("Vehicle not found " + matricula);
-        if(err)
+        {    
+            var auxErr = new Error("Vehicle not found " + matricula);
+            console.log(Date()+" - "+auxErr);
+            res.sendStatus(404)
+        }
+        else if(err)
         {    
             console.log(Date()+" - "+err);
             res.sendStatus(500)
@@ -111,15 +119,21 @@ app.patch(BASE_API_PATH + "/vehicles/:matricula", (req, res)  => {
 app.delete(BASE_API_PATH + "/vehicles/:matricula", (req, res)  => {
     let matricula = req.params.matricula;
 
-    Vehicle.findOneAndDelete({"matricula": matricula}, (err) => {
-        if(err)
+    Vehicle.findOneAndDelete({"matricula": matricula}, (err, vehicle_to_delete) => {
+        if(err == null && vehicle_to_delete == null)
+        {    
+            var auxErr = new Error("Vehicle not found " + matricula);
+            console.log(Date()+" - "+auxErr);
+            res.sendStatus(404)
+        }
+        else if(err)
         {    
             console.log(err);
             res.sendStatus(500)
         }else
         {
             console.log(Date() + " DELETE /vehicles/" + matricula)
-            res.status(200).send({message : "Vehicle " + matricula+ " removed"});
+            res.status(204).send({message : "Vehicle " + matricula+ " removed"});
         }
     });
 });
