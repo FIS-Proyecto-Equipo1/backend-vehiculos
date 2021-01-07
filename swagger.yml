@@ -26,6 +26,11 @@ paths:
       produces:
       - "application/json"
       parameters:
+      - in: "header"
+        name: "rol"
+        description: "Rol del usuario"
+        required: true
+        type: string
       - in: "body"
         name: "body"
         description: "Adding a new vehicle to the sistem database"
@@ -107,6 +112,11 @@ paths:
         description: "Identificador del vehiculo"
         required: true
         type: string
+      - in: "header"
+        name: "rol"
+        description: "Rol del usuario"
+        required: true
+        type: string
       consumes:
       - "application/json"
       produces:
@@ -130,6 +140,11 @@ paths:
         description: "Identificador del vehiculo"
         required: true
         type: string
+      - in: "header"
+        name: "rol"
+        description: "Rol del usuario"
+        required: true
+        type: string  
       - in: "body"
         name: "body"
         description: "Nuevos valores del vehiculo, puede incluir localizacion y/o estado"
@@ -159,6 +174,11 @@ paths:
         description: "Identificador del vehiculo"
         required: true
         type: string
+      - in: "header"
+        name: "rol"
+        description: "Rol del usuario"
+        required: true
+        type: string  
       - in: "body"
         name: "body"
         description: "Nuevos valores del vehiculo"

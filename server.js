@@ -50,13 +50,13 @@ app.get(BASE_API_PATH + "/vehicles/:matricula", (req, res)  => {
 });
 
 app.post(BASE_API_PATH + "/vehicles", (req, res)  => {
-    rolCliente = req.header('rol')
-    if (rolCliente !== "ADMIN"){
-        console.log(Date()+" - Try to post without priviledges");
-        res.status(403 ).send()
-    }
-    else
-    { 
+    // rolCliente = req.header('rol')
+    // if (rolCliente !== "ADMIN"){
+    //     console.log(Date()+" - Try to post without priviledges");
+    //     res.status(403 ).send()
+    // }
+    // else
+    // { 
         var veh = req.body;
         Vehicle.create(veh, (err) => {
             if(err)
@@ -68,17 +68,17 @@ app.post(BASE_API_PATH + "/vehicles", (req, res)  => {
                 res.sendStatus(201);
             }
         });
-    }
+    // }
 });
 
 app.put(BASE_API_PATH + "/vehicles/:matricula", (req, res)  => {
-    rolCliente = req.header('rol')
-    if (rolCliente !== "ADMIN"){
-        console.log(Date()+" - Try to post without priviledges");
-        res.status(403 ).send()
-    }
-    else
-    { 
+    // rolCliente = req.header('rol')
+    // if (rolCliente !== "ADMIN"){
+    //     console.log(Date()+" - Try to post without priviledges");
+    //     res.status(403 ).send()
+    // }
+    // else
+    // { 
         let matricula = req.params.matricula;
         let update_vehicle = req.body;
         Vehicle.findOneAndUpdate({"matricula": matricula}, update_vehicle, { runValidators: true }, (err, vehicle_update) => {
@@ -99,7 +99,7 @@ app.put(BASE_API_PATH + "/vehicles/:matricula", (req, res)  => {
             }                                                                     
                                                                                 
         });
-    }    
+    // }    
 });
 
  
@@ -134,13 +134,13 @@ app.patch(BASE_API_PATH + "/vehicles/:matricula", (req, res)  => {
 
 
 app.delete(BASE_API_PATH + "/vehicles/:matricula", (req, res)  => {
-    rolCliente = req.header('rol')
-    if (rolCliente !== "ADMIN"){
-        console.log(Date()+" - Try to post without priviledges");
-        res.status(403 ).send()
-    }
-    else
-    { 
+    // rolCliente = req.header('rol')
+    // if (rolCliente !== "ADMIN"){
+    //     console.log(Date()+" - Try to post without priviledges");
+    //     res.status(403 ).send()
+    // }
+    // else
+    // { 
         let matricula = req.params.matricula;
 
         Vehicle.findOneAndDelete({"matricula": matricula}, (err, vehicle_to_delete) => {
@@ -160,7 +160,7 @@ app.delete(BASE_API_PATH + "/vehicles/:matricula", (req, res)  => {
                 res.status(204).send({message : "Vehicle " + matricula+ " removed"});
             }
         });
-    }    
+    // }    
 });
 
 module.exports =app;
