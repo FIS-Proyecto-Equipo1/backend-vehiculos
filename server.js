@@ -148,7 +148,7 @@ app.delete(BASE_API_PATH + "/vehicles/:matricula", (req, res)  => {
             {    
                 var auxErr = new Error("Vehicle not found " + matricula);
                 console.log(Date()+" - "+auxErr);
-                res.sendStatus(404)
+                res.sendStatus(404);
             }
             else if(err)
             {    
