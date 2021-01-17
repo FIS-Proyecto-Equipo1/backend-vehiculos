@@ -5,33 +5,30 @@ info:
   title: "Servicio de Vehiculos"
   license:
     name: "Apache 2.0"
-    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+    url: "http://www.apache.org/licenses/LICENSE 2.0.html"
 basePath: "/api/v1"
 tags:
-- name: "Vehiculos"
+  name: "Vehiculos"
   description: "Gestion de vehículos"
 schemes:
 
-- "http"
+"http"
 paths:
   /vehiculos:
     post:
-      tags:
-      - "Vehiculos"
+      tags: "Vehiculos"
       summary: "Crear una vehiculo"
       description: ""
       operationId: "createVehiculo"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
+      consumes: "application/json"
+      produces: "application/json"
       parameters:
-      - in: "header"
+        in: "header"
         name: "rol"
         description: "Rol del usuario"
         required: true
         type: string
-      - in: "body"
+        in: "body"
         name: "body"
         description: "Adding a new vehicle to the sistem database"
         required: true
@@ -46,28 +43,28 @@ paths:
           description: "Error de validación"
     get:
       tags:
-      - "Vehiculos"
-      summary: "Listado total de vehiculos"
+        "Vehiculos"
+      summary: "Listado de vehiculos"
       description: "Obtiene el listado de vehiculos, con el posible filtrado de las queries"
       operationId: "listaVehiculos"
       parameters:
-      - in: "query"
+        in: "query"
         name: "estado"
         description: "Estado del vehiculo"
         required: false
         type: string
-      - in: "query"
+        in: "query"
         name: "tipo"
         description: "Tipo de vehiculo"
         required: false
         type: string
-      - in: "query"
+        in: "query"
         name: "permiso"
         description: "Permiso necesario para el vehiculo"
         required: false
         type: string
       produces:
-      - "application/json"
+        "application/json"
       responses:
         "200":
           description: "Operación satisfactoria"
@@ -79,18 +76,18 @@ paths:
   /vehiculos/{matricula}:
     get:
       tags:
-      - "Vehiculos"
+        "Vehiculos"
       summary: "Obtener la información completa de un vehiculo"
       description: "Obtener la información completa de un vehicul"
       operationId: "obtenerVehiculo"
       parameters:
-      - in: "path"
+        in: "path"
         name: "matricula"
         description: "Identificador del vehiculo"
         required: true
         type: string
       produces:
-      - "application/json"
+        "application/json"
       responses:
         "200":
           description: "Operación satisfactoria"
@@ -102,25 +99,25 @@ paths:
           description: "Server encontrada"
     delete:
       tags:
-      - "Vehiculos"
+        "Vehiculos"
       summary: "Eliminar un vehiculo del sistema"
       description: "Eliminar un vehiculo del sistema"
       operationId: "deleteVehiculo"
       parameters:
-      - in: "path"
+        in: "path"
         name: "matricula"
         description: "Identificador del vehiculo"
         required: true
         type: string
-      - in: "header"
+        in: "header"
         name: "rol"
         description: "Rol del usuario"
         required: true
         type: string
       consumes:
-      - "application/json"
+        "application/json"
       produces:
-      - "application/json"
+        "application/json"
       responses:
         "200":
           description: "Operación satisfactoria"
@@ -130,31 +127,31 @@ paths:
           description: "No encontrada"
     patch:
       tags:
-      - "Vehiculos"
+        "Vehiculos"
       summary: "Modifica uno o mas campos un vehiculo"
       description: "Modifica uno o mas campos del vehiculo indicado en el path"
       operationId: "ModificarAlgoVehiculo"
       parameters:
-      - in: "path"
+        in: "path"
         name: "matricula"
         description: "Identificador del vehiculo"
         required: true
         type: string
-      - in: "header"
+        in: "header"
         name: "rol"
         description: "Rol del usuario"
         required: true
         type: string  
-      - in: "body"
+        in: "body"
         name: "body"
         description: "Nuevos valores del vehiculo, puede incluir localizacion y/o estado"
         required: true
         schema:
           $ref: "#/definitions/ModificacionVehiculo"
       consumes:
-      - "application/json"
+        "application/json"
       produces:
-      - "application/json"
+        "application/json"
       responses:
         "200":
           description: "Operación satisfactoria"
@@ -164,31 +161,31 @@ paths:
           description: "No encontrada"
     put:
       tags:
-      - "Vehiculos"
+        "Vehiculos"
       summary: "Modifica todos los campos un vehiculo"
       description: "Modifica toda la informacion del vehiculo indicado en el path"
       operationId: "ModificarTodoVehiculo"
       parameters:
-      - in: "path"
+        in: "path"
         name: "matricula"
         description: "Identificador del vehiculo"
         required: true
         type: string
-      - in: "header"
+        in: "header"
         name: "rol"
         description: "Rol del usuario"
         required: true
         type: string  
-      - in: "body"
+        in: "body"
         name: "body"
         description: "Nuevos valores del vehiculo"
         required: true
         schema:
           $ref: "#/definitions/Vehiculo"
       consumes:
-      - "application/json"
+        "application/json"
       produces:
-      - "application/json"
+        "application/json"
       responses:
         "200":
           description: "Operación satisfactoria"

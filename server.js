@@ -2,20 +2,56 @@ var exp = require('express');
 var body_parser = require('body-parser');
 var cors = require('cors');
 const Vehicle = require('./vehicle');
+const swaggerUi = require('swagger-ui-express');
+const swaggerJSDoc = require('swagger-jsdoc');
+
 
 var BASE_API_PATH = "/api/v1";
 
+const options = {
+    definition:{
+        openapi: '3.0.0',
+        info: {
+            title: 'Swagger Express API',
+            version: '1.0.0'
+        },
+        basePath: "/api/v1",
+        tags:
+        {
+            name: "Vehiculos",
+            description: "Gestion de vehículos"
+        }
+    },
+    apis:['./server.js']
+}
 
-
+const swaggerSpec = swaggerJSDoc(options);
 var app = exp();
 app.use(body_parser.urlencoded({ extended: false }))
 app.use(body_parser.json());
 app.use(cors());
+ app.use('/api-documentation', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.get("/", (req, res)  => {
     res.send("<html><body><h1>MY SERVER IS RUNNING</h1></body></html>");
 });
 
+/**
+ * @swagger
+ * 
+ * 
+ * /api/v1/vehicles:
+ *   get:
+ *    summary: Listado total de vehiculos
+ *    description: Obtiene el listado de vehiculos, con el posible filtrado de las queries
+ *    responses:
+ *      201:
+ *          description: user register successfull
+ *      404:
+ *          description: no va bro
+ *                      
+ *     
+ */
 app.get(BASE_API_PATH + "/vehicles", (req, res)  => {
     Vehicle.find(req.query, (err, vehicles) => {
         if(err){
@@ -48,7 +84,37 @@ app.get(BASE_API_PATH + "/vehicles/:matricula", (req, res)  => {
         }
     })
 });
-
+/**
+ * @swagger
+ * vehiculos
+    post:
+      summary: "Crear una vehiculo"
+      description: ""
+      operationId: "createVehiculo"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "header"
+        name: "rol"
+        description: "Rol del usuario"
+        required: true
+        type: string
+      - in: "body"
+        name: "body"
+        description: "Adding a new vehicle to the sistem database"
+        required: true
+        schema:
+          $ref: "#/definitions/Vehiculo"
+      responses:
+        "201":
+          description: "Operación satisfactoria"
+          schema:
+            $ref: "#/definitions/Vehiculo"
+        "500":
+          description: "Error de validación"
+ */
 app.post(BASE_API_PATH + "/vehicles", (req, res)  => {
     // rolCliente = req.header('rol')
     // if (rolCliente !== "ADMIN"){
