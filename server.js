@@ -65,6 +65,28 @@ app.get(BASE_API_PATH + "/vehicles", (req, res)  => {
     })
 });
 
+/**
+ * @swagger
+ * 
+ * 
+ * /api/v1/vehicles/{matricula}:
+ *   get:
+ *    summary: Listado total de vehiculos
+ *    description: Obtiene el listado de vehiculos, con el posible filtrado de las queries
+ *    parameters:
+ *      - in: path
+ *        name: matricula
+ *        description: Identificador del vehiculo
+ *        required: true
+ *        type: string
+ *    responses:
+ *      200:
+ *          description: user register successfull
+ *      404:
+ *          description: no va bro
+ *                      
+ *     
+ */
 app.get(BASE_API_PATH + "/vehicles/:matricula", (req, res)  => {
     
     Vehicle.findOne({"matricula": req.params.matricula}, (err, vehicle) => {
@@ -79,41 +101,52 @@ app.get(BASE_API_PATH + "/vehicles/:matricula", (req, res)  => {
             else    
             {
                 console.log(Date() + " GET /vehicles/ "+req.params.matricula);
-                res.send(vehicle.cleanId());
+                res.status(200).send(vehicle.cleanId());
             }
         }
     })
 });
 /**
  * @swagger
- * vehiculos
-    post:
-      summary: "Crear una vehiculo"
-      description: ""
-      operationId: "createVehiculo"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - in: "header"
-        name: "rol"
-        description: "Rol del usuario"
-        required: true
-        type: string
-      - in: "body"
-        name: "body"
-        description: "Adding a new vehicle to the sistem database"
-        required: true
-        schema:
-          $ref: "#/definitions/Vehiculo"
-      responses:
-        "201":
-          description: "Operación satisfactoria"
-          schema:
-            $ref: "#/definitions/Vehiculo"
-        "500":
-          description: "Error de validación"
+ * 
+ * /api/v1/vehicles:
+ *  post:
+ *    summary: Crear una vehiculo
+ *    description: 
+ *    operationId: createVehiculo
+ *    parameters:
+ *      - in: header
+ *        name: rol
+ *        description: Rol del usuario
+ *        required: true
+ *        type: string
+ *      - in: body
+ *        name: body
+ *        description: Adding a new vehicle to the sistem database
+ *        required: true
+ *        type: string
+ *        schema:
+ *          type: object
+ *          properties:
+ *              matricula:
+ *                  type: string
+ *              estado:
+ *                  type: string
+ *              tipo:
+ *                  type: string
+ *              permiso:
+ *                  type: string
+ *              localizacion:
+ *                  type: string
+ *    consumes:
+ *      application/json       
+ *    responses:
+ *      201:
+ *          description: created
+ *      500:
+ *          description: error de validacion       
+ *      
+ * 
  */
 app.post(BASE_API_PATH + "/vehicles", (req, res)  => {
     // rolCliente = req.header('rol')
