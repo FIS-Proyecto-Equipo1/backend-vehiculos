@@ -106,6 +106,8 @@ app.get(BASE_API_PATH + "/vehicles/:matricula", (req, res)  => {
         }
     })
 });
+
+
 /**
  * @swagger
  * 
@@ -170,6 +172,67 @@ app.post(BASE_API_PATH + "/vehicles", (req, res)  => {
     // }
 });
 
+/**
+ * @swagger
+ * 
+ * 
+ * /api/v1/vehicles/{matricula}:
+ *  put:
+ *    summary: "Modifica todos los campos un vehiculo"
+ *    description: "Modifica toda la informacion del vehiculo indicado en el path"
+ *    operationId: "ModificarTodoVehiculo"
+ *    parameters:
+ *      - in: "path"
+ *        name: "matricula"
+ *        description: "Identificador del vehiculo"
+ *        required: true
+ *        type: string
+ *      - in: "header"
+ *        name: "rol"
+ *        description: "Rol del usuario"
+ *        required: true
+ *        type: string  
+ *      - in: "body"
+ *        name: "body"
+ *        description: "Nuevos valores del vehiculo"
+ *        required: true
+ *        schema:
+ *          type: object
+ *          properties:
+ *              matricula:
+ *                  type: string
+ *              estado:
+ *                  type: string
+ *              tipo:
+ *                  type: string
+ *              permiso:
+ *                  type: string
+ *              localizacion:
+ *                  type: string
+ *    consumes:
+ *      "application/json"
+ *    produces:
+ *      "application/json"
+ *    responses:
+ *      "200":
+ *        description: "Operación satisfactoria"
+ *        schema:
+ *          type: object
+ *          properties:
+ *              matricula:
+ *                  type: string
+ *              estado:
+ *                  type: string
+ *              tipo:
+ *                  type: string
+ *              permiso:
+ *                  type: string
+ *              localizacion:
+ *                  type: string
+ *      "404":
+ *        description: "No encontrada"
+ *        
+ */
 app.put(BASE_API_PATH + "/vehicles/:matricula", (req, res)  => {
     // rolCliente = req.header('rol')
     // if (rolCliente !== "ADMIN"){
@@ -201,7 +264,67 @@ app.put(BASE_API_PATH + "/vehicles/:matricula", (req, res)  => {
     // }    
 });
 
- 
+/**
+ * @swagger
+ * 
+ * 
+ * /api/v1/vehicles/{matricula}:
+ *  patch:
+ *    summary: "Modifica uno o mas campos un vehiculo"
+ *    description: "Modifica uno o mas campos del vehiculo indicado en el path"
+ *    operationId: "ModificarAlgoVehiculo"
+ *    parameters:
+ *      - in: "path"
+ *        name: "matricula"
+ *        description: "Identificador del vehiculo"
+ *        required: true
+ *        type: string
+ *      - in: "header"
+ *        name: "rol"
+ *        description: "Rol del usuario"
+ *        required: true
+ *        type: string  
+ *      - in: "body"
+ *        name: "body"
+ *        description: "Nuevos valores del vehiculo"
+ *        required: true
+ *        schema:
+ *          type: object
+ *          properties:
+ *              matricula:
+ *                  type: string
+ *              estado:
+ *                  type: string
+ *              tipo:
+ *                  type: string
+ *              permiso:
+ *                  type: string
+ *              localizacion:
+ *                  type: string
+ *    consumes:
+ *      "application/json"
+ *    produces:
+ *      "application/json"
+ *    responses:
+ *      "200":
+ *        description: "Operación satisfactoria"
+ *        schema:
+ *          type: object
+ *          properties:
+ *              matricula:
+ *                  type: string
+ *              estado:
+ *                  type: string
+ *              tipo:
+ *                  type: string
+ *              permiso:
+ *                  type: string
+ *              localizacion:
+ *                  type: string
+ *      "404":
+ *        description: "No encontrada"
+ *        
+ */ 
 app.patch(BASE_API_PATH + "/vehicles/:matricula", (req, res)  => {
     rolCliente = req.header('rol')
     if (rolCliente !== "ADMIN"){
@@ -231,7 +354,37 @@ app.patch(BASE_API_PATH + "/vehicles/:matricula", (req, res)  => {
     }    
 }); 
 
-
+/**
+ * @swagger
+ * 
+ * /api/v1/vehicles/{matricula}:
+ *  delete:
+ *    summary: "Eliminar un vehiculo del sistema"
+ *    description: "Eliminar un vehiculo del sistema"
+ *    operationId: "deleteVehiculo"
+ *    parameters:
+ *      - in: "path"
+ *        name: "matricula"
+ *        description: "Identificador del vehiculo"
+ *        required: true
+ *        type: string
+ *      - in: "header"
+ *        name: "rol"
+ *        description: "Rol del usuario"
+ *        required: true
+ *        type: string
+ *    consumes:
+ *      "application/json"
+ *    produces:
+ *      "application/json"
+ *    responses:
+ *      "200":
+ *        description: "Operación satisfactoria"
+ *        schema:
+ *          $ref: "#/definitions/Vehiculo"
+ *      "404":
+ *        description: "No encontrada"
+*/
 app.delete(BASE_API_PATH + "/vehicles/:matricula", (req, res)  => {
     // rolCliente = req.header('rol')
     // if (rolCliente !== "ADMIN"){
