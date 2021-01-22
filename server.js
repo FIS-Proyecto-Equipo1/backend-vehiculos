@@ -45,10 +45,10 @@ app.get("/", (req, res)  => {
  *    summary: Listado total de vehiculos
  *    description: Obtiene el listado de vehiculos, con el posible filtrado de las queries
  *    responses:
- *      201:
+ *      200:
  *          description: user register successfull
- *      404:
- *          description: no va bro
+ *      500:
+ *          description: error interno
  *                      
  *     
  */
@@ -83,7 +83,7 @@ app.get(BASE_API_PATH + "/vehicles", (req, res)  => {
  *      200:
  *          description: user register successfull
  *      404:
- *          description: no va bro
+ *          description: no encontrado
  *                      
  *     
  */
@@ -108,49 +108,45 @@ app.get(BASE_API_PATH + "/vehicles/:matricula", (req, res)  => {
 });
 
 
+
+app.post(BASE_API_PATH + "/vehicles", (req, res)  => {
 /**
  * @swagger
  * 
  * /api/v1/vehicles:
  *  post:
  *    summary: Crear una vehiculo
- *    description: 
- *    operationId: createVehiculo
- *    parameters:
- *      - in: header
- *        name: rol
- *        description: Rol del usuario
+ *    consumes: 
+ *      - application/json
+ *    parameters: 
+ *      - in: "header"
+ *        name: "rol"
+ *        description: "Rol del usuario"
  *        required: true
  *        type: string
- *      - in: body
- *        name: body
- *        description: Adding a new vehicle to the sistem database
- *        required: true
- *        type: string
- *        schema:
- *          type: object
- *          properties:
- *              matricula:
- *                  type: string
- *              estado:
- *                  type: string
- *              tipo:
- *                  type: string
- *              permiso:
- *                  type: string
- *              localizacion:
- *                  type: string
- *    consumes:
- *      application/json       
+ *    requestBody:
+ *      content:
+ *            application/json:
+ *               schema:
+ *                  type: object
+ *                  properties:
+ *                     matricula:
+ *                       type: string
+ *                       required: true
+ *                     estado:
+ *                       type: string
+ *                     tipo:
+ *                       type: string
+ *                     permiso:
+ *                       type: string
+ *                     localizacion:
+ *                       type: string       
  *    responses:
  *      201:
  *          description: created
  *      500:
  *          description: error de validacion       
- *      
- * 
  */
-app.post(BASE_API_PATH + "/vehicles", (req, res)  => {
     // rolCliente = req.header('rol')
     // if (rolCliente !== "ADMIN"){
     //     console.log(Date()+" - Try to post without priviledges");
@@ -158,7 +154,8 @@ app.post(BASE_API_PATH + "/vehicles", (req, res)  => {
     // }
     // else
     // { 
-        var veh = req.body;
+        var veh = req.body;  
+        console.log(req.body);      
         Vehicle.create(veh, (err) => {
             if(err)
             {
@@ -166,7 +163,7 @@ app.post(BASE_API_PATH + "/vehicles", (req, res)  => {
                 res.sendStatus(500);
             }else{
                 console.log(Date() + " POST /vehicles")
-                res.sendStatus(201);
+                res.status(201).send({"vehicle":veh});
             }
         });
     // }
@@ -192,23 +189,25 @@ app.post(BASE_API_PATH + "/vehicles", (req, res)  => {
  *        description: "Rol del usuario"
  *        required: true
  *        type: string  
- *      - in: "body"
- *        name: "body"
- *        description: "Nuevos valores del vehiculo"
- *        required: true
- *        schema:
- *          type: object
- *          properties:
- *              matricula:
- *                  type: string
- *              estado:
- *                  type: string
- *              tipo:
- *                  type: string
- *              permiso:
- *                  type: string
- *              localizacion:
- *                  type: string
+ *    requestBody:
+ *      content:
+ *            application/json:
+ *              name: "body"
+ *              description: "Nuevos valores del vehiculo"
+ *              required: true
+ *              schema:
+ *                  type: object
+ *                  properties:
+ *                      matricula:
+ *                          type: string
+ *                      estado:
+ *                          type: string
+ *                      tipo:
+ *                          type: string
+ *                      permiso:
+ *                          type: string
+ *                      localizacion:
+ *                          type: string
  *    consumes:
  *      "application/json"
  *    produces:
@@ -236,7 +235,7 @@ app.post(BASE_API_PATH + "/vehicles", (req, res)  => {
 app.put(BASE_API_PATH + "/vehicles/:matricula", (req, res)  => {
     // rolCliente = req.header('rol')
     // if (rolCliente !== "ADMIN"){
-    //     console.log(Date()+" - Try to post without priviledges");
+    //     console.log(Date()+" - Try to put without priviledges");
     //     res.status(403 ).send()
     // }
     // else
@@ -284,23 +283,25 @@ app.put(BASE_API_PATH + "/vehicles/:matricula", (req, res)  => {
  *        description: "Rol del usuario"
  *        required: true
  *        type: string  
- *      - in: "body"
- *        name: "body"
- *        description: "Nuevos valores del vehiculo"
- *        required: true
- *        schema:
- *          type: object
- *          properties:
- *              matricula:
- *                  type: string
- *              estado:
- *                  type: string
- *              tipo:
- *                  type: string
- *              permiso:
- *                  type: string
- *              localizacion:
- *                  type: string
+ *    requestBody:
+ *      content:
+ *            application/json:
+ *              name: "body"
+ *              description: "Nuevos valores del vehiculo"
+ *              required: true
+ *              schema:
+ *                  type: object
+ *                  properties:
+ *                      matricula:
+ *                          type: string
+ *                      estado:
+ *                          type: string
+ *                      tipo:
+ *                          type: string
+ *                      permiso:
+ *                          type: string
+ *                      localizacion:
+ *                          type: string
  *    consumes:
  *      "application/json"
  *    produces:
@@ -328,7 +329,7 @@ app.put(BASE_API_PATH + "/vehicles/:matricula", (req, res)  => {
 app.patch(BASE_API_PATH + "/vehicles/:matricula", (req, res)  => {
     rolCliente = req.header('rol')
     if (rolCliente !== "ADMIN"){
-        console.log(Date()+" - Try to post without priviledges");
+        console.log(Date()+" - Try to patch without priviledges");
         res.status(403 ).send()
     }
     else

@@ -182,6 +182,17 @@ describe("VEhicles API", () => {
            });
         });
 
+        it('should not modify any vehicle', ()=>{
+            dbPut.mockImplementation((filter, update_vehicle, validators, callback) => {
+                callback(null, null);
+            });
+
+            return request(app).put('/api/v1/vehicles/'+vehicleOK.matricula+"2").send(vehicleUp).then((response) => {
+                expect(response.statusCode).toBe(404);
+                expect(dbPut).toBeCalledWith({"matricula":vehicleOK.matricula}, expect.any(Object), {"runValidators": true} ,expect.any(Function));
+           });
+        });
+
     });
 
     describe("PATCH /vehicles/:id", () => {
@@ -205,12 +216,27 @@ describe("VEhicles API", () => {
             });
         });
 
-        it('should modify some info and return one vehicle', ()=>{
+        it('should be forbidden without rol admin', ()=>{
             return request(app).patch('/api/v1/vehicles/'+vehicleOK.matricula).send(vehicleUp).then((response) => {
+                expect(response.statusCode).toBe(403);
+            });
+        });
+        
+        it('should modify some info and return one vehicle', ()=>{
+            return request(app).patch('/api/v1/vehicles/'+vehicleOK.matricula).set({rol:"ADMIN"}).send(vehicleUp).then((response) => {
                 expect(response.statusCode).toBe(200);
                 expect(String(response.body)).toMatch(String(vehicleOK.cleanId()));
                 expect(dbPatch).toBeCalledWith({"matricula":vehicleOK.matricula}, expect.any(Object), {"runValidators": true} ,expect.any(Function));
            });
+        });
+
+        it('should not modify anything', ()=>{
+            dbPatch.mockImplementation((filter, update_vehicle, validators, callback) => {
+                callback(null, null);
+            });
+            return request(app).patch('/api/v1/vehicles/'+vehicleOK.matricula+"2").set({rol:"ADMIN"}).send(vehicleUp).then((response) => {
+                expect(response.statusCode).toBe(404);
+            });
         });
 
     });
