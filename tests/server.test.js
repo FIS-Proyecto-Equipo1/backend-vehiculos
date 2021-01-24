@@ -90,13 +90,18 @@ describe("VEhicles API", () => {
             dbInsert = jest.spyOn(Vehicle, "create");
         })
 
+        it('should be forbidden without rol admin', ()=>{
+            return request(app).post('/api/v1/vehicles/').send(vehicle).then((response) => {
+                expect(response.statusCode).toBe(403);
+            });
+        });
 
         it ("should add a new vehicle", () => {
            dbInsert.mockImplementation((c, callback) => {
                callback(false);
            });
 
-           return request(app).post('/api/v1/vehicles').send(vehicle).then((response) => {
+           return request(app).post('/api/v1/vehicles').set({rol:"ADMIN"}).send(vehicle).then((response) => {
                 expect(response.statusCode).toBe(201);
                 expect(dbInsert).toBeCalledWith(vehicle, expect.any(Function));
            });
@@ -108,7 +113,7 @@ describe("VEhicles API", () => {
                 callback(true);
             });
 
-            return request(app).post('/api/v1/vehicles').send(vehicle).then((response) => {
+            return request(app).post('/api/v1/vehicles').set({rol:"ADMIN"}).send(vehicle).then((response) => {
                 expect(response.statusCode).toBe(500);
            });
         });
@@ -133,8 +138,14 @@ describe("VEhicles API", () => {
             });
         });
 
-        it('should delete and return one vehicle', ()=>{
+        it('should be forbidden without rol admin', ()=>{
             return request(app).delete('/api/v1/vehicles/'+vehicleOK.matricula).then((response) => {
+                expect(response.statusCode).toBe(403);
+            });
+        });
+
+        it('should delete and return one vehicle', ()=>{
+            return request(app).delete('/api/v1/vehicles/'+vehicleOK.matricula).set({rol:"ADMIN"}).then((response) => {
                 expect(response.statusCode).toBe(204);
                 expect(String(response.body)).toMatch(String(vehicleOK.cleanId()));
                 expect(dbDelete).toBeCalledWith({"matricula":vehicleOK.matricula}, expect.any(Function));
@@ -145,7 +156,7 @@ describe("VEhicles API", () => {
             dbDelete.mockImplementation(({}, callback) => {
                 callback(null, null);
             });
-            return request(app).delete('/api/v1/vehicles/5642KIL').then((response) => {
+            return request(app).delete('/api/v1/vehicles/5642KIL').set({rol:"ADMIN"}).then((response) => {
                 expect(response.statusCode).toBe(404);
                 expect(String(response.body)).toMatch(String({}));
                 expect(dbDelete).toBeCalledWith({"matricula":"5642KIL"}, expect.any(Function));
@@ -174,8 +185,14 @@ describe("VEhicles API", () => {
             });
         });
 
-        it('should modify and return one vehicle', ()=>{
+        it('should be forbidden without rol admin', ()=>{
             return request(app).put('/api/v1/vehicles/'+vehicleOK.matricula).send(vehicleUp).then((response) => {
+                expect(response.statusCode).toBe(403);
+            });
+        });
+
+        it('should modify and return one vehicle', ()=>{
+            return request(app).put('/api/v1/vehicles/'+vehicleOK.matricula).set({rol:"ADMIN"}).send(vehicleUp).then((response) => {
                 expect(response.statusCode).toBe(200);
                 expect(String(response.body)).toMatch(String(vehicleOK.cleanId()));
                 expect(dbPut).toBeCalledWith({"matricula":vehicleOK.matricula}, expect.any(Object), {"runValidators": true} ,expect.any(Function));
@@ -187,7 +204,7 @@ describe("VEhicles API", () => {
                 callback(null, null);
             });
 
-            return request(app).put('/api/v1/vehicles/'+vehicleOK.matricula+"2").send(vehicleUp).then((response) => {
+            return request(app).put('/api/v1/vehicles/'+vehicleOK.matricula+"2").set({rol:"ADMIN"}).send(vehicleUp).then((response) => {
                 expect(response.statusCode).toBe(404);
                 expect(dbPut).toBeCalledWith({"matricula":vehicleOK.matricula}, expect.any(Object), {"runValidators": true} ,expect.any(Function));
            });
@@ -215,15 +232,9 @@ describe("VEhicles API", () => {
                 callback(null, vehicleOK);
             });
         });
-
-        it('should be forbidden without rol admin', ()=>{
-            return request(app).patch('/api/v1/vehicles/'+vehicleOK.matricula).send(vehicleUp).then((response) => {
-                expect(response.statusCode).toBe(403);
-            });
-        });
         
         it('should modify some info and return one vehicle', ()=>{
-            return request(app).patch('/api/v1/vehicles/'+vehicleOK.matricula).set({rol:"ADMIN"}).send(vehicleUp).then((response) => {
+            return request(app).patch('/api/v1/vehicles/'+vehicleOK.matricula).send(vehicleUp).then((response) => {
                 expect(response.statusCode).toBe(200);
                 expect(String(response.body)).toMatch(String(vehicleOK.cleanId()));
                 expect(dbPatch).toBeCalledWith({"matricula":vehicleOK.matricula}, expect.any(Object), {"runValidators": true} ,expect.any(Function));
@@ -234,7 +245,7 @@ describe("VEhicles API", () => {
             dbPatch.mockImplementation((filter, update_vehicle, validators, callback) => {
                 callback(null, null);
             });
-            return request(app).patch('/api/v1/vehicles/'+vehicleOK.matricula+"2").set({rol:"ADMIN"}).send(vehicleUp).then((response) => {
+            return request(app).patch('/api/v1/vehicles/'+vehicleOK.matricula+"2").send(vehicleUp).then((response) => {
                 expect(response.statusCode).toBe(404);
             });
         });

@@ -278,11 +278,6 @@ app.put(BASE_API_PATH + "/vehicles/:matricula", (req, res)  => {
  *        description: "Identificador del vehiculo"
  *        required: true
  *        type: string
- *      - in: "header"
- *        name: "rol"
- *        description: "Rol del usuario"
- *        required: true
- *        type: string  
  *    requestBody:
  *      content:
  *            application/json:
