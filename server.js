@@ -147,13 +147,13 @@ app.post(BASE_API_PATH + "/vehicles", (req, res)  => {
  *      500:
  *          description: error de validacion       
  */
-    // rolCliente = req.header('rol')
-    // if (rolCliente !== "ADMIN"){
-    //     console.log(Date()+" - Try to post without priviledges");
-    //     res.status(403 ).send()
-    // }
-    // else
-    // { 
+    rolCliente = req.header('rol')
+    if (rolCliente !== "ADMIN"){
+        console.log(Date()+" - Try to post without priviledges");
+        res.status(403 ).send()
+    }
+    else
+    { 
         var veh = req.body;  
         console.log(req.body);      
         Vehicle.create(veh, (err) => {
@@ -166,7 +166,7 @@ app.post(BASE_API_PATH + "/vehicles", (req, res)  => {
                 res.status(201).send({"vehicle":veh});
             }
         });
-    // }
+     }
 });
 
 /**
@@ -233,13 +233,13 @@ app.post(BASE_API_PATH + "/vehicles", (req, res)  => {
  *        
  */
 app.put(BASE_API_PATH + "/vehicles/:matricula", (req, res)  => {
-    // rolCliente = req.header('rol')
-    // if (rolCliente !== "ADMIN"){
-    //     console.log(Date()+" - Try to put without priviledges");
-    //     res.status(403 ).send()
-    // }
-    // else
-    // { 
+    rolCliente = req.header('rol')
+    if (rolCliente !== "ADMIN"){
+        console.log(Date()+" - Try to put without priviledges");
+        res.status(403 ).send()
+    }
+    else
+    { 
         let matricula = req.params.matricula;
         let update_vehicle = req.body;
         Vehicle.findOneAndUpdate({"matricula": matricula}, update_vehicle, { runValidators: true }, (err, vehicle_update) => {
@@ -260,7 +260,7 @@ app.put(BASE_API_PATH + "/vehicles/:matricula", (req, res)  => {
             }                                                                     
                                                                                 
         });
-    // }    
+    }    
 });
 
 /**
@@ -327,13 +327,13 @@ app.put(BASE_API_PATH + "/vehicles/:matricula", (req, res)  => {
  *        
  */ 
 app.patch(BASE_API_PATH + "/vehicles/:matricula", (req, res)  => {
-    rolCliente = req.header('rol')
-    if (rolCliente !== "ADMIN"){
-        console.log(Date()+" - Try to patch without priviledges");
-        res.status(403 ).send()
-    }
-    else
-    { 
+    // rolCliente = req.header('rol')
+    // if (rolCliente !== "ADMIN"){
+    //     console.log(Date()+" - Try to patch without priviledges");
+    //     res.status(403 ).send()
+    // }
+    // else
+    // { 
         let matricula = req.params.matricula;
         Vehicle.findOneAndUpdate({"matricula": matricula}, req.body, { runValidators: true }, (err, vehicle_update) => {
             if(err == null && vehicle_update == null)
@@ -352,7 +352,7 @@ app.patch(BASE_API_PATH + "/vehicles/:matricula", (req, res)  => {
                 res.status(200).send({vehicle : vehicle_update}); //envia la informacion del viejo no del nuevo
             }
         });
-    }    
+    //}    
 }); 
 
 /**
@@ -387,13 +387,13 @@ app.patch(BASE_API_PATH + "/vehicles/:matricula", (req, res)  => {
  *        description: "No encontrada"
 */
 app.delete(BASE_API_PATH + "/vehicles/:matricula", (req, res)  => {
-    // rolCliente = req.header('rol')
-    // if (rolCliente !== "ADMIN"){
-    //     console.log(Date()+" - Try to post without priviledges");
-    //     res.status(403 ).send()
-    // }
-    // else
-    // { 
+    rolCliente = req.header('rol')
+    if (rolCliente !== "ADMIN"){
+        console.log(Date()+" - Try to post without priviledges");
+        res.status(403 ).send()
+    }
+    else
+    { 
         let matricula = req.params.matricula;
 
         Vehicle.findOneAndDelete({"matricula": matricula}, (err, vehicle_to_delete) => {
@@ -413,7 +413,7 @@ app.delete(BASE_API_PATH + "/vehicles/:matricula", (req, res)  => {
                 res.status(204).send({message : "Vehicle " + matricula+ " removed"});
             }
         });
-    // }    
+    }    
 });
 
 module.exports =app;
