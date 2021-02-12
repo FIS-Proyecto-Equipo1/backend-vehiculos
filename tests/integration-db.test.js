@@ -28,6 +28,7 @@ describe('Vehicle db connection', ()=>{
     afterAll((done) => {
         mongoose.connection.db.DropDatabase(() => {
             mongoose.connection.close(done);
+            done();
         })
     })
 })

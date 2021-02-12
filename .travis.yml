@@ -10,7 +10,7 @@ before_install:
 install:
   - npm install
 script:
-  - npm test --detectOpenHandles
+  - npm test -- -u --detectOpenHandles
   - docker build -t vehicles .
 deploy:
   provider: script
