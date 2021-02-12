@@ -9,7 +9,7 @@
   },
   "scripts": {
     "start": "node index.js",
-    "test": "jest --detectOpenHandles"
+    "test": "jest --forceExit --detectOpenHandles"
   },
   "author": "Alfredo Fuentes",
   "license": "ISC",
